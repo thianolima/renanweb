@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+
+  mysql:
+    image: ivonet/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123abc
+      MYSQL_DATABASE: renanweb
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.6.4-1
+    ports:
+      - "9090:80"
+    links:
+      - mysql:mysql
+    environment:
+      - MYSQL_USERNAME=root
+      - MYSQL_ROOT_PASSWORD=123abc
+      - PMA_HOST=mysql
+    depends_on:
+      - mysql
+
+
+volumes:
+  mysql_data:
